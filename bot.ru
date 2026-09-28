@@ -1,5 +1,6 @@
 import asyncio
 import logging
+import os
 from aiogram import Bot, Dispatcher, F, types
 from aiogram.filters import CommandStart
 from google import genai
@@ -9,6 +10,8 @@ GEMINI_API_KEY = "AQ.Ab8RN6IqeLGoiwN96I4rZ4p_wmKqhmTQBUqLWhYNhZ-cAlhmFA"
 
 bot = Bot(token=TELEGRAM_TOKEN)
 dp = Dispatcher()
+
+# Инициализируем клиент Gemini с явной передачей ключа
 client = genai.Client(api_key=GEMINI_API_KEY)
 
 
@@ -23,6 +26,7 @@ async def cmd_start(message: types.Message):
 async def handle_message(message: types.Message):
   await bot.send_chat_action(chat_id=message.chat.id, action="typing")
   try:
+    # Используем проверенную модель для генерации
     response = client.models.generate_content(
         model="gemini-2.5-flash",
         contents=message.text,
