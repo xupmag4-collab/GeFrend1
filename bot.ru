@@ -1,13 +1,15 @@
 import asyncio
 import logging
 import os
+
+# Автоматически устанавливаем библиотеки прямо при старте, чтобы Render не тупил
+os.system("pip install aiogram google-generativeai python-dotenv")
+
 from aiogram import Bot, Dispatcher, F, types
 from aiogram.filters import CommandStart
 import google.generativeai as genai
 
 TELEGRAM_TOKEN = "8845426734:AAF5XCuBSQAwtMuF_qepYqQiYV_ke3TWVEE"
-
-# Берем ключ из переменной окружения Render
 GEMINI_API_KEY = os.getenv("GEMINI_API_KEY")
 
 genai.configure(api_key=GEMINI_API_KEY)
@@ -19,9 +21,7 @@ dp = Dispatcher()
 
 @dp.message(CommandStart())
 async def cmd_start(message: types.Message):
-  await message.answer(
-      "Привет! Я твой бот на базе Gemini, запущенный на Render."
-  )
+  await message.answer("Привет! Бот успешно запущен и работает.")
 
 
 @dp.message(F.text)
@@ -37,7 +37,7 @@ async def handle_message(message: types.Message):
 
 async def main():
   logging.basicConfig(level=logging.INFO)
-  print("Бот запущен в облаке...")
+  print("Бот запущен...")
   await dp.start_polling(bot)
 
 
