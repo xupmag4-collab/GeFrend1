@@ -1,13 +1,15 @@
 import asyncio
 import logging
+import os
 from aiogram import Bot, Dispatcher, F, types
 from aiogram.filters import CommandStart
 import google.generativeai as genai
 
 TELEGRAM_TOKEN = "8845426734:AAF5XCuBSQAwtMuF_qepYqQiYV_ke3TWVEE"
-GEMINI_API_KEY = "AQ.Ab8RN6IqeLGoiwN96I4rZ4p_wmKqhmTQBUqLWhYNhZ-cAlhmFA"
 
-# Настраиваем Gemini старым проверенным способом
+# Берем ключ из переменной окружения Render
+GEMINI_API_KEY = os.getenv("GEMINI_API_KEY")
+
 genai.configure(api_key=GEMINI_API_KEY)
 model = genai.GenerativeModel("gemini-1.5-flash")
 
