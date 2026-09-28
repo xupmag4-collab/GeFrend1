@@ -1,18 +1,18 @@
 import asyncio
 import logging
-import os
 from aiogram import Bot, Dispatcher, F, types
 from aiogram.filters import CommandStart
-from google import genai
+import google.generativeai as genai
 
 TELEGRAM_TOKEN = "8845426734:AAF5XCuBSQAwtMuF_qepYqQiYV_ke3TWVEE"
 GEMINI_API_KEY = "AQ.Ab8RN6IqeLGoiwN96I4rZ4p_wmKqhmTQBUqLWhYNhZ-cAlhmFA"
 
+# Настраиваем Gemini старым проверенным способом
+genai.configure(api_key=GEMINI_API_KEY)
+model = genai.GenerativeModel("gemini-1.5-flash")
+
 bot = Bot(token=TELEGRAM_TOKEN)
 dp = Dispatcher()
-
-# Инициализируем клиент Gemini с явной передачей ключа
-client = genai.Client(api_key=GEMINI_API_KEY)
 
 
 @dp.message(CommandStart())
@@ -26,11 +26,7 @@ async def cmd_start(message: types.Message):
 async def handle_message(message: types.Message):
   await bot.send_chat_action(chat_id=message.chat.id, action="typing")
   try:
-    # Используем проверенную модель для генерации
-    response = client.models.generate_content(
-        model="gemini-2.5-flash",
-        contents=message.text,
-    )
+    response = model.generate_content(message.text)
     await message.answer(response.text)
   except Exception as e:
     logging.error(f"Ошибка: {e}")
