@@ -9,7 +9,7 @@ from aiogram.filters import CommandStart
 import requests
 
 TELEGRAM_TOKEN = "8845426734:AAE175GrROXHhLcvJNPUyCNuNSF0ByENGNc"
-GROQ_API_KEY = "Gsk_dUseFAFVhNtHZMpHWKgQWGdyb3FYtZI4TIDLOHIQV4elk6kdToeY"
+GROQ_API_KEY = "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"
 
 bot = Bot(token=TELEGRAM_TOKEN)
 dp = Dispatcher()
