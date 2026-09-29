@@ -2,8 +2,6 @@ import asyncio
 import logging
 import os
 
-os.system("pip install aiogram requests")
-
 from aiogram import Bot, Dispatcher, F, types
 from aiogram.filters import CommandStart
 import requests
@@ -18,7 +16,7 @@ dp = Dispatcher()
 @dp.message(CommandStart())
 async def cmd_start(message: types.Message):
   await message.answer(
-      "Привет! Я твой ИИ-бот на базе Groq, работающий в облаке Render."
+      "Привет! Я твой ИИ-бот на базе Groq, работающий в облаке Hugging Face."
       " Напиши мне что-нибудь!"
   )
 
@@ -34,7 +32,7 @@ async def handle_message(message: types.Message):
         "Content-Type": "application/json",
     }
     payload = {
-        "model": "llama-3.1-8b-instant",
+        "model": "llama3-8b-8192",
         "messages": [
             {
                 "role": "system",
@@ -61,7 +59,7 @@ async def handle_message(message: types.Message):
 
 async def main():
   logging.basicConfig(level=logging.INFO)
-  print("Запуск Groq Telegram-бота...")
+  print("Запуск Groq Telegram-бота на Hugging Face...")
   await bot.delete_webhook(drop_pending_updates=True)
   await dp.start_polling(bot)
 
